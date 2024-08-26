@@ -14,26 +14,13 @@ public class Profile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
     private Long userId;
-
-    @Column(name = "name")
     private String name;
-
-    @Column(name = "email")
     private String email;
-
-    @Column(name = "password")
     private String password;
-
-    @Column(name = "role")
     private String role;
-
-    @Column(name = "created_at")
     private LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;    // Getters and Setters
+    private LocalDateTime updatedAt;
 
     @Override
     public String toString() {
