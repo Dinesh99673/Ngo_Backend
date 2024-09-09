@@ -4,14 +4,19 @@ import com.project.Ngo.model.Media;
 import com.project.Ngo.service.MediaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/media")
 public class MediaController {
-
     @Autowired
     private MediaService mediaService;
 
@@ -26,12 +31,34 @@ public class MediaController {
     }
 
     @PostMapping
-    public Media saveMedia(@RequestBody Media media) {
-        return mediaService.saveMedia(media);
+    public String saveMedia(
+            @RequestParam("ngo_id") Long ngoId,
+            @RequestParam("event_id") Long eventId,
+            @RequestParam("file_type") String fileType,
+            @RequestParam("image") MultipartFile file) {
+        try (Connection conn = DriverManager.getConnection(
+                "jdbc:postgresql://localhost:5432/Ngo", "postgres", "dinuu123")) {
+            String sql = "INSERT INTO media (ngo_id, event_id, file_data, file_type, uploaded_at) VALUES (?, ?, ?, ?, ?)";
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setLong(1, ngoId);
+                stmt.setLong(2, eventId);
+                stmt.setBytes(3, file.getBytes());
+                stmt.setString(4, "Image");
+                stmt.setObject(5, LocalDateTime.now());
+                stmt.executeUpdate();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Failed to save media: " + e.getMessage();
+        }
+        return "Saved succesfully";
+
     }
+
 
     @DeleteMapping("/{id}")
     public void deleteMedia(@PathVariable Long id) {
         mediaService.deleteMedia(id);
     }
+
 }
