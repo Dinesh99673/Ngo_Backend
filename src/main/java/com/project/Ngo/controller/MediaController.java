@@ -3,6 +3,7 @@ package com.project.Ngo.controller;
 import com.project.Ngo.model.Media;
 import com.project.Ngo.service.MediaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,6 +18,13 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/media")
 public class MediaController {
+
+    @Value("${db.username}")
+    private String dbUsername;
+
+    @Value("${db.password}")
+    private String dbPassword;
+
     @Autowired
     private MediaService mediaService;
 
@@ -37,7 +45,7 @@ public class MediaController {
             @RequestParam("file_type") String fileType,
             @RequestParam("image") MultipartFile file) {
         try (Connection conn = DriverManager.getConnection(
-                "jdbc:postgresql://localhost:5432/Ngo", "postgres", "dinuu123")) {
+                "jdbc:postgresql://localhost:5432/Ngo", dbUsername, dbPassword)) {
             String sql = "INSERT INTO media (ngo_id, event_id, file_data, file_type, uploaded_at) VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setLong(1, ngoId);

@@ -26,22 +26,28 @@ CREATE TABLE Profile(
     user_id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
+    phone VARCHAR(15),
     password VARCHAR(100) NOT NULL,
-    role VARCHAR(10) CHECK (role IN ('NGO', 'Donor')) NOT NULL,
+    adhar_no VARCHAR(20) UNIQUE NOT NULL,
+    profile_image BYTEA,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
 
 CREATE TABLE Ngo(
     ngo_id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     description TEXT,
     website VARCHAR(255),
+    location_link VARCHAR(255),
     email VARCHAR(100) UNIQUE NOT NULL,
-    phone VARCHAR(50),
+    phone VARCHAR(15),
     address VARCHAR(120),
-    registered_by INTEGER REFERENCES Profile(user_id) ON DELETE SET NULL,
+    registered_by VARCHAR(100),
+    adhar_no Varchar(20),
+    ngo_founder VARCHAR(100) NOT NULL,
+    founded_on DATE,
+    category VARCHAR(60)
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -52,16 +58,27 @@ CREATE TABLE Event (
     ngo_id INTEGER REFERENCES Ngo(ngo_id) ON DELETE CASCADE,
     title VARCHAR(100) NOT NULL,
     description TEXT,
-    location VARCHAR(255),
+    location_link VARCHAR(255),
+    venue VARCHAR(150),
     start_date TIMESTAMP,
     end_date TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+
+CREATE TABLE Donor(
+    donor_id SERIAL PRIMARY KEY,
+    type VARCHAR(10) CHECK (type IN ('NGO', 'User')) NOT NULL,
+    ngo_id INTEGER REFERENCES Ngo(ngo_id) ON DELETE CASCADE,
+    user_id INTEGER REFERENCES Profile(user_id) ON DELETE CASCADE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE Transaction (
     transaction_id SERIAL PRIMARY KEY,
-    donor_id INTEGER REFERENCES Donar(donar_id) ON DELETE CASCADE,
+    donor_id INTEGER REFERENCES Donor(donor_id) ON DELETE CASCADE,
     recipient_id INTEGER REFERENCES Ngo(ngo_id) ON DELETE CASCADE,
     amount DECIMAL(15, 2) NOT NULL,
     transaction_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -70,30 +87,43 @@ CREATE TABLE Transaction (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE Donar(
-    donar_id SERIAL PRIMARY KEY,
-    type VARCHAR(10) CHECK (type IN ('NGO', 'User')) NOT NULL,
-    ngo_id INTEGER REFERENCES Ngo(ngo_id) ON DELETE CASCADE,
-    user_id INTEGER REFERENCES Profile(user_id) ON DELETE CASCADE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE Comment(
-    comment_id SERIAL PRIMARY KEY,
+CREATE TABLE Event_Review(
+    review_id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES Profile(user_id) ON DELETE SET NULL,
     event_id INTEGER REFERENCES Event(event_id) ON DELETE CASCADE,
     content TEXT NOT NULL,
+    rating DECIMAL(2,1),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE media (
+CREATE TABLE Ngo_Review(
+    review_id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES Profile(user_id) ON DELETE SET NULL,
+    ngo_id INTEGER REFERENCES Ngo(ngo_id) ON DELETE CASCADE,
+    reviewed_ngo_id INTEGER REFERENCES Ngo(ngo_id) ON DELETE CASCADE,
+    content TEXT NOT NULL,
+    rating DECIMAL(2,1),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE About_Review(
+    review_id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES Profile(user_id) ON DELETE SET NULL,
+    ngo_id INTEGER REFERENCES Ngo(ngo_id) ON DELETE CASCADE,
+    content TEXT NOT NULL,
+    rating DECIMAL(2,1),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Media (
     media_id SERIAL PRIMARY KEY,
     ngo_id INTEGER REFERENCES Ngo(ngo_id) ON DELETE CASCADE,
     event_id INTEGER REFERENCES Event(event_id) ON DELETE SET NULL,
+    description VARCHAR(100),
     file_data BYTEA NOT NULL,
-    file_type VARCHAR(50) CHECK (file_type IN ('Image', 'Video')) NOT NULL,
     uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
