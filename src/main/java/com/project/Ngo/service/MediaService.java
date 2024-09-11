@@ -31,17 +31,6 @@ public class MediaService {
         return mediaRepository.save(media);
     }
 
-    public void testSaveMedia() {
-        Media media = new Media();
-        media.setNgo_id(3L);
-        media.setEvent_id(1L);
-        media.setFile_type("Image");
-        media.setFile_data(new byte[]{1, 2, 3}); // Sample byte array
-        media.setUploaded_at(LocalDateTime.now());
-
-        mediaRepository.save(media);
-    }
-
     public void deleteMedia(Long id) {
 
         mediaRepository.deleteById(id);

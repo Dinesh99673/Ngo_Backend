@@ -17,11 +17,16 @@ public class Ngo {
     private Long ngo_id;
     private String name;
     private String description;
-    private String website;
     private String email;
     private String phone;
     private String address;
-    private Long registered_by;
+    private String registered_by;
+    private String adhar_no;
+    private String founder_name;
+    private Long founded_on;
+    private String category;
+    private String website;
+    private String location_link;
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
 }

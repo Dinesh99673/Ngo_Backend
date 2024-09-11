@@ -1,6 +1,5 @@
 package com.project.Ngo.controller;
 
-import com.project.Ngo.model.Donar;
 import com.project.Ngo.model.Event;
 import com.project.Ngo.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -21,14 +21,17 @@ public class ProfileService {
     }
 
     public Optional<Profile> getProfileById(Long id) {
+
         return profileRepository.findById(id);
     }
 
     public Profile saveProfile(Profile profile) {
+
         return profileRepository.save(profile);
     }
 
     public void deleteProfile(Long id) {
+
         profileRepository.deleteById(id);
     }
 }

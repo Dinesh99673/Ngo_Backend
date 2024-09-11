@@ -15,8 +15,8 @@ public class Event {
     private Long ngo_id;
     private String title;
     private String description;
-    private String location;
-
+    private String location_link;
+    private String venue;
     private LocalDateTime start_date;
     private LocalDateTime end_date;
     private LocalDateTime created_at;

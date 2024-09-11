@@ -14,10 +14,11 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long transaction_id;
-    private Long donor_id;
+    private Long ngo_id;
+    private Long user_id;
     private Long recipient_id;
     private BigDecimal amount;
-    private LocalDateTime transaction_date;
+    private LocalDateTime transaction_time;
     private String status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

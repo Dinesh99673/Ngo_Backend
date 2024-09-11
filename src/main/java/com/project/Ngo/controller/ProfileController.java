@@ -10,13 +10,14 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
-@RequestMapping("/profiles")
+@RequestMapping("/profile")
 public class ProfileController {
 
     @Autowired
     private ProfileService profileService;
 
     public ProfileController(ProfileService profileService){
+
         this.profileService = profileService;
     }
 
@@ -28,11 +29,13 @@ public class ProfileController {
 
     @GetMapping("/{id}")
     public Optional<Profile> getProfileById(@PathVariable Long id) {
+
         return profileService.getProfileById(id);
     }
 
     @PostMapping
     public Profile createProfile(@RequestBody Profile profile) {
+
         return profileService.saveProfile(profile);
     }
 

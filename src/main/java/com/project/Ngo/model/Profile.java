@@ -17,21 +17,11 @@ public class Profile {
     private Long userId;
     private String name;
     private String email;
+    private String phone;
     private String password;
-    private String role;
+    private String adhar_no;
+    private byte[] profile_image;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    @Override
-    public String toString() {
-        return "Profile{" +
-                "userId=" + userId +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", role='" + role + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
-    }
 }
