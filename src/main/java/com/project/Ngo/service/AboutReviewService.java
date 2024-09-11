@@ -21,7 +21,7 @@ public class AboutReviewService {
         return aboutReviewRepository.findById(id);
     }
 
-    public AboutReview saveAbouteview(AboutReview aboutReview) {
+    public AboutReview saveAboutReview(AboutReview aboutReview) {
         return aboutReviewRepository.save(aboutReview);
     }
 
