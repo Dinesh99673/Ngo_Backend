@@ -26,6 +26,10 @@ public class Media {
     @Lob
     @Column(name = "file_data", columnDefinition = "bytea")
     private byte[] file_data;
+<<<<<<< HEAD
     private String description;
+=======
+    private String file_type;
+>>>>>>> d2b45bf5b7cf3379c5ae412f6f8e7b97720fbae3
     private LocalDateTime uploaded_at;
 }
