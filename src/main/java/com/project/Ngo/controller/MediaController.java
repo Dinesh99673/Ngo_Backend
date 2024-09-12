@@ -1,12 +1,16 @@
 package com.project.Ngo.controller;
 
 import com.project.Ngo.model.Media;
+import com.project.Ngo.model.Profile;
 import com.project.Ngo.service.MediaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -38,28 +42,15 @@ public class MediaController {
     }
 
     @PostMapping
-    public String saveMedia(
-            @RequestParam("ngo_id") Long ngoId,
-            @RequestParam("event_id") Long eventId,
-            @RequestParam("description") String description,
-            @RequestParam("image") MultipartFile file) {
-        try (Connection conn = DriverManager.getConnection(
-                "jdbc:postgresql://localhost:5432/Ngo", dbUsername, dbPassword)) {
-            String sql = "INSERT INTO media (ngo_id, event_id, file_data, description, uploaded_at) VALUES (?, ?, ?, ?, ?)";
-            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-                stmt.setLong(1, ngoId);
-                stmt.setLong(2, eventId);
-                stmt.setBytes(3, file.getBytes());
-                stmt.setString(4, description);
-                stmt.setObject(5, LocalDateTime.now());
-                stmt.executeUpdate();
-            }
+    public ResponseEntity<?> saveMedia(@RequestBody Media media,
+                            @RequestParam("file_data") MultipartFile file_data
+    ) throws IOException {
+        try {
+            Media savedmedia = mediaService.saveMedia(media,file_data);
+            return ResponseEntity.ok(savedmedia);
         } catch (Exception e) {
-            e.printStackTrace();
-            return "Failed to save media: " + e.getMessage();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading file");
         }
-        return "Saved succesfully";
-
     }
 
 

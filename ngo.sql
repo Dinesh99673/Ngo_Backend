@@ -126,5 +126,6 @@ CREATE TABLE Media (
     event_id INTEGER REFERENCES Event(event_id) ON DELETE SET NULL,
     description VARCHAR(100),
     file_path VARCHAR(100) NOT NULL,
+    file_type VARCHAR(50) NOT NULL,
     uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

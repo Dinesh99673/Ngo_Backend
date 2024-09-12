@@ -23,6 +23,7 @@ public class Media {
     private Long ngo_id;
     private Long event_id;
     private String file_path;
+    private String file_type;
     private String description;
     private LocalDateTime uploaded_at;
 }
