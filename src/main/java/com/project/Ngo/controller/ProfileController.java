@@ -3,8 +3,12 @@ package com.project.Ngo.controller;
 import com.project.Ngo.model.Profile;
 import com.project.Ngo.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,8 +27,7 @@ public class ProfileController {
 
     @GetMapping
     public List<Profile> getAllProfiles() {
-        List<Profile> profiles = profileService.getAllProfiles();
-        return profiles;
+        return profileService.getAllProfiles();
     }
 
     @GetMapping("/{id}")
@@ -33,10 +36,17 @@ public class ProfileController {
         return profileService.getProfileById(id);
     }
 
+    //To add new Profile/User
     @PostMapping
-    public Profile createProfile(@RequestBody Profile profile) {
-
-        return profileService.saveProfile(profile);
+    public ResponseEntity<?> createProfile(@RequestBody Profile profile,
+                                 @RequestParam("profile_image") MultipartFile profile_image
+                                 ) throws IOException {
+        try {
+            Profile savedProfile = profileService.saveProfile(profile,profile_image);
+            return ResponseEntity.ok(savedProfile);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading file");
+        }
     }
 
     @DeleteMapping("/{id}")

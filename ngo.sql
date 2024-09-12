@@ -29,7 +29,8 @@ CREATE TABLE Profile(
     phone VARCHAR(15),
     password VARCHAR(100) NOT NULL,
     adhar_no VARCHAR(20) UNIQUE NOT NULL,
-    profile_image BYTEA,
+    profile_image VARCHAR(100),
+    image_type VARCHAR(50),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -124,6 +125,6 @@ CREATE TABLE Media (
     ngo_id INTEGER REFERENCES Ngo(ngo_id) ON DELETE CASCADE,
     event_id INTEGER REFERENCES Event(event_id) ON DELETE SET NULL,
     description VARCHAR(100),
-    file_data BYTEA NOT NULL,
+    file_path VARCHAR(100) NOT NULL,
     uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

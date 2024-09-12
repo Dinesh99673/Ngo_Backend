@@ -20,9 +20,8 @@ public class Profile {
     private String phone;
     private String password;
     private String adhar_no;
-    @Lob
-    @Column(name = "profile_image", columnDefinition = "bytea")
-    private byte[] profile_image;
+    private String profile_image;
+    private String image_type;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 

@@ -3,9 +3,9 @@ package com.project.Ngo.controller;
 import com.project.Ngo.model.Ngo;
 import com.project.Ngo.service.NgoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,5 +24,11 @@ public class NgoController {
     public List<Ngo> getAllngo() {
         List<Ngo> ngos = ngoService.getAllngos();
         return ngos;
+    }
+
+    @PostMapping
+    public ResponseEntity<Ngo> saveNgo(@RequestBody Ngo ngo) {
+        Ngo savedNgo = ngoService.saveNgo(ngo);
+        return new ResponseEntity<>(savedNgo, HttpStatus.CREATED);
     }
 }
