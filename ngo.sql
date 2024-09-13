@@ -131,7 +131,7 @@ CREATE TABLE Media (
     uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE field(
+CREATE TABLE ngo_field(
     field_id SERIAL PRIMARY KEY,
     ngo_id INTEGER REFERENCES Ngo(ngo_id) ON DELETE CASCADE,
     file_path VARCHAR(100) NOT NULL,

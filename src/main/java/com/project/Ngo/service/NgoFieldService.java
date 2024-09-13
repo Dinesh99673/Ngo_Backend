@@ -1,10 +1,7 @@
 package com.project.Ngo.service;
 
-import com.project.Ngo.Repository.MediaRepository;
 import com.project.Ngo.Repository.NgoFieldRepository;
-import com.project.Ngo.model.Media;
 import com.project.Ngo.model.NgoField;
-import com.project.Ngo.model.NgoReview;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
@@ -50,7 +47,7 @@ public class NgoFieldService {
         return ngoFieldRepository.save(field);
     }
 
-    public void deleteMedia(Long id) {
+    public void deleteNgoField(Long id) {
         ngoFieldRepository.deleteById(id);
     }
 
