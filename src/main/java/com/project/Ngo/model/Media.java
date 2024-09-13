@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 @Table(name = "media")
 public class Media {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long media_id;
@@ -24,6 +23,5 @@ public class Media {
     private Long event_id;
     private String file_path;
     private String file_type;
-    private String description;
     private LocalDateTime uploaded_at;
 }

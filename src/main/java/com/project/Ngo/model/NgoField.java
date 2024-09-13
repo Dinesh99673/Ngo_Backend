@@ -7,20 +7,21 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@Data
 @Entity
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="event_review")
-public class EventReview {
+@Table(name="ngo_field")
+public class NgoField {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long review_id;
-    private Long user_id;
-    private Long event_id;
-    private String content;
-    private float rating;
-    private LocalDateTime created_at;
-    private LocalDateTime updated_at;
+    private Long field_id;
+    private Long ngo_id;
+    private String field_name;
+    private String field_content;
+    private String file_path;
+    private String file_type;
+    private LocalDateTime uploaded_at;
 
 }

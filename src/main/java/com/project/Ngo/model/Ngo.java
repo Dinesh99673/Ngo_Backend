@@ -27,6 +27,8 @@ public class Ngo {
     private String category;
     private String website;
     private String location_link;
+    private String profile_path;
+    private String profile_type;
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
 }

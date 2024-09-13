@@ -49,6 +49,8 @@ CREATE TABLE Ngo(
     founded_on DATE,
     category VARCHAR(60),
     website VARCHAR(255),
+    profile_path VARCHAR(100),
+    profile_type VARCHAR(60),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -124,8 +126,17 @@ CREATE TABLE Media (
     media_id SERIAL PRIMARY KEY,
     ngo_id INTEGER REFERENCES Ngo(ngo_id) ON DELETE CASCADE,
     event_id INTEGER REFERENCES Event(event_id) ON DELETE SET NULL,
-    description VARCHAR(100),
     file_path VARCHAR(100) NOT NULL,
     file_type VARCHAR(50) NOT NULL,
+    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE field(
+    field_id SERIAL PRIMARY KEY,
+    ngo_id INTEGER REFERENCES Ngo(ngo_id) ON DELETE CASCADE,
+    file_path VARCHAR(100) NOT NULL,
+    file_type VARCHAR(50) NOT NULL,
+    field_name VARCHAR(50),
+    field_content VARCHAR(100),
     uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
