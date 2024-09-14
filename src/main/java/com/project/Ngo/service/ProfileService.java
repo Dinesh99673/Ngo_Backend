@@ -22,7 +22,9 @@ public class ProfileService {
     private ProfileRepository profileRepository;
 
     @Value("${upload.profile_images}")
-    private String profileDir;
+    private String profile;
+
+    private String profileDir = System.getProperty("user.dir")+"\\Ngo\\uploads\\profile_images";
 
     public List<Profile> getAllProfiles() {
         List<Profile> profiles = profileRepository.findAll();
@@ -40,6 +42,7 @@ public class ProfileService {
         String fileName = UUID.randomUUID().toString() + "_" + profile_image.getOriginalFilename();
 
         // Path to save the file
+        System.out.println("Profile directory: " + profileDir);
         Path filePath = Paths.get(profileDir, fileName);
 
         // Save the file to the specified path

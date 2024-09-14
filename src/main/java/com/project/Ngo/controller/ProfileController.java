@@ -38,13 +38,14 @@ public class ProfileController {
 
     //To add new Profile/User
     @PostMapping
-    public ResponseEntity<?> createProfile(@RequestBody Profile profile,
-                                 @RequestParam("profile_image") MultipartFile profile_image
+    public ResponseEntity<?> createProfile(@ModelAttribute Profile profile,
+                                 @RequestParam("profile") MultipartFile profile_image
                                  ) throws IOException {
         try {
             Profile savedProfile = profileService.saveProfile(profile,profile_image);
             return ResponseEntity.ok(savedProfile);
         } catch (IOException e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading file");
         }
     }

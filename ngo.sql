@@ -46,7 +46,7 @@ CREATE TABLE Ngo(
     registered_by VARCHAR(100),
 	adhar_no Varchar(20),
 	founder_name VARCHAR(100) NOT NULL,
-    founded_on DATE,
+    founded_on INTEGER,
     category VARCHAR(60),
     website VARCHAR(255),
     profile_path VARCHAR(100),

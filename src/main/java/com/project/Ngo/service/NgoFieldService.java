@@ -4,6 +4,7 @@ import com.project.Ngo.Repository.NgoFieldRepository;
 import com.project.Ngo.model.NgoField;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Service
 public class NgoFieldService {
 
     @Autowired
