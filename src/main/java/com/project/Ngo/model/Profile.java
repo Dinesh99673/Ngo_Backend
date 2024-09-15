@@ -4,8 +4,10 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 
 
@@ -26,7 +28,12 @@ public class Profile {
     private String adhar_no;
     private String profile_image;
     private String image_type;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    // Automatically set the current timestamp when the entity is first created
+    @CreationTimestamp
+    @Column(updatable = false)
+    private Timestamp created_at;
 
+    // Automatically update the timestamp when the entity is modified
+    @UpdateTimestamp
+    private Timestamp updated_at;
 }

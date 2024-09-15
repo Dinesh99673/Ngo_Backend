@@ -21,10 +21,7 @@ public class ProfileService {
     @Autowired
     private ProfileRepository profileRepository;
 
-    @Value("${upload.profile_images}")
-    private String profile;
-
-    private String profileDir = System.getProperty("user.dir")+"\\Ngo\\uploads\\profile_images";
+    private String profileDir = System.getProperty("user.dir")+"\\uploads\\profile_images";
 
     public List<Profile> getAllProfiles() {
         List<Profile> profiles = profileRepository.findAll();
@@ -33,7 +30,6 @@ public class ProfileService {
     }
 
     public Optional<Profile> getProfileById(Long id) {
-
         return profileRepository.findById(id);
     }
 
@@ -44,19 +40,20 @@ public class ProfileService {
         // Path to save the file
         System.out.println("Profile directory: " + profileDir);
         Path filePath = Paths.get(profileDir, fileName);
+        String path = filePath.toString().replace("\\", "/");
+
 
         // Save the file to the specified path
         Files.write(filePath, profile_image.getBytes());
 
         // Save the file path in the database
-        profile.setProfile_image(filePath.toString());
+        profile.setProfile_image(path);
         profile.setImage_type(profile_image.getContentType());
 
         return profileRepository.save(profile);
     }
 
     public void deleteProfile(Long id) {
-
         profileRepository.deleteById(id);
     }
 }

@@ -2,8 +2,11 @@ package com.project.Ngo.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
+
 
 
 
@@ -29,6 +32,12 @@ public class Ngo {
     private String location_link;
     private String profile_path;
     private String profile_type;
-    private LocalDateTime created_at;
-    private LocalDateTime updated_at;
+    // Automatically set the current timestamp when the entity is first created
+    @CreationTimestamp
+    @Column(updatable = false)
+    private Timestamp created_at;
+
+    // Automatically update the timestamp when the entity is modified
+    @UpdateTimestamp
+    private Timestamp updated_at;
 }
