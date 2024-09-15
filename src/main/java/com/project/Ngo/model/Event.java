@@ -4,8 +4,11 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
+
 
 @Data
 @Entity
@@ -21,9 +24,14 @@ public class Event {
     private String description;
     private String location_link;
     private String venue;
-    private LocalDateTime start_date;
-    private LocalDateTime end_date;
-    private LocalDateTime created_at;
-    private LocalDateTime updated_at;
+    private Timestamp start_date;
+    private Timestamp end_date;
+    // Automatically set the current timestamp when the entity is first created
+    @CreationTimestamp
+    @Column(updatable = false)
+    private Timestamp created_at;
 
+    // Automatically update the timestamp when the entity is modified
+    @UpdateTimestamp
+    private Timestamp updated_at;
 }

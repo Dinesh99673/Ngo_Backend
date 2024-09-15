@@ -4,8 +4,11 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity
@@ -24,6 +27,11 @@ public class Transaction {
     private BigDecimal amount;
     private LocalDateTime transaction_time;
     private String status;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-}
+    // Automatically set the current timestamp when the entity is first created
+    @CreationTimestamp
+    @Column(updatable = false)
+    private Timestamp created_at;
+
+    // Automatically update the timestamp when the entity is modified
+    @UpdateTimestamp
+    private Timestamp updated_at;}

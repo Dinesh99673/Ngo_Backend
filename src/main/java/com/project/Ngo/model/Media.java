@@ -5,9 +5,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 @Entity
 @Data
@@ -23,5 +23,6 @@ public class Media {
     private Long event_id;
     private String file_path;
     private String file_type;
-    private LocalDateTime uploaded_at;
-}
+    // Automatically update the timestamp when the entity is modified
+    @UpdateTimestamp
+    private Timestamp uploaded_at;}

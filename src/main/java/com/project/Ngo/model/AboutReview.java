@@ -4,8 +4,10 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 @Data
 @Entity
@@ -20,7 +22,12 @@ public class AboutReview {
     private Long ngo_id;
     private String content;
     private float rating;
-    private LocalDateTime created_at;
-    private LocalDateTime updated_at;
+    // Automatically set the current timestamp when the entity is first created
+    @CreationTimestamp
+    @Column(updatable = false)
+    private Timestamp created_at;
 
+    // Automatically update the timestamp when the entity is modified
+    @UpdateTimestamp
+    private Timestamp updated_at;
 }
