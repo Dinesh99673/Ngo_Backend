@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/events")
 public class EventController {
@@ -25,7 +25,8 @@ public class EventController {
     }
 
     @PostMapping
-    public Event saveEvent(@RequestBody Event event) {
+    public Event saveEvent(@ModelAttribute Event event) {
+
         return eventService.saveEvent(event);
     }
 }

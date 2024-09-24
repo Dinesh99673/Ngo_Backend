@@ -46,7 +46,7 @@ CREATE TABLE Ngo(
     registered_by VARCHAR(100),
 	adhar_no Varchar(20),
 	founder_name VARCHAR(100) NOT NULL,
-    founded_on INTEGER,
+    founded_on DATE,
     category VARCHAR(60),
     website VARCHAR(255),
     profile_path VARCHAR(100),
@@ -65,6 +65,8 @@ CREATE TABLE Event (
     venue VARCHAR(150),
     start_date TIMESTAMP,
     end_date TIMESTAMP,
+    fees VARCHAR(10);
+
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -137,6 +139,6 @@ CREATE TABLE ngo_field(
     file_path VARCHAR(100) NOT NULL,
     file_type VARCHAR(50) NOT NULL,
     field_name VARCHAR(50),
-    field_content VARCHAR(100),
+    field_content TEXT,
     uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

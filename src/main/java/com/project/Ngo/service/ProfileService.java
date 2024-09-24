@@ -1,9 +1,9 @@
 package com.project.Ngo.service;
 
-import com.project.Ngo.model.Profile;
 import com.project.Ngo.Repository.ProfileRepository;
+import com.project.Ngo.model.Ngo;
+import com.project.Ngo.model.Profile;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,7 +21,8 @@ public class ProfileService {
     @Autowired
     private ProfileRepository profileRepository;
 
-    private String profileDir = System.getProperty("user.dir")+"\\uploads\\profile_images";
+    // Directory for profile images
+    private final String profileDir = System.getProperty("user.dir") + "\\uploads\\ngo_images";
 
     public List<Profile> getAllProfiles() {
         List<Profile> profiles = profileRepository.findAll();
@@ -34,14 +35,11 @@ public class ProfileService {
     }
 
     public Profile saveProfile(Profile profile, MultipartFile profile_image) throws IOException {
-
         String fileName = UUID.randomUUID().toString() + "_" + profile_image.getOriginalFilename();
 
         // Path to save the file
-        System.out.println("Profile directory: " + profileDir);
         Path filePath = Paths.get(profileDir, fileName);
         String path = filePath.toString().replace("\\", "/");
-
 
         // Save the file to the specified path
         Files.write(filePath, profile_image.getBytes());
@@ -50,10 +48,26 @@ public class ProfileService {
         profile.setProfile_image(path);
         profile.setImage_type(profile_image.getContentType());
 
+        //profile.setProfile_image("Yoooo");
+
+
         return profileRepository.save(profile);
     }
 
     public void deleteProfile(Long id) {
         profileRepository.deleteById(id);
+    }
+
+    // This method will authenticate the user using email and password
+    public Profile loginUser(String email, String password) throws Exception {
+        Profile user = profileRepository.findByEmail(email)
+                .orElseThrow(() -> new Exception("User not found"));
+
+        // Compare the plain text password (in production, use password encryption)
+        if (!user.getPassword().equals(password)) {
+            throw new Exception("Invalid password");
+        }
+
+        return user; // User successfully authenticated
     }
 }

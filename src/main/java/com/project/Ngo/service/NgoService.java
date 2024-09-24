@@ -22,25 +22,26 @@ public class NgoService {
     private NgoRepository ngoRepository;
 
     private String profileDir = System.getProperty("user.dir")+"\\uploads\\ngo_images";
+//private String profileDir = upload.ngo_images
 
     public List<Ngo> getAllngos() {
+        System.out.println(profileDir);
         List<Ngo> Ngos = ngoRepository.findAll();
-        System.out.println("Fetched Ngo: " + Ngos);
         return Ngos;
     }
 
     public Optional<Ngo> getNgoById(Long id) {
+
         return ngoRepository.findById(id);
     }
+
 
     public Ngo saveNgo(Ngo ngo, MultipartFile profile_image) throws IOException {
         String fileName = UUID.randomUUID().toString() + "_" + profile_image.getOriginalFilename();
 
         // Path to save the file
-        System.out.println("Profile directory: " + profileDir);
         Path filePath = Paths.get(profileDir, fileName);
         String path = filePath.toString().replace("\\", "/");
-
 
         // Save the file to the specified path
         Files.write(filePath, profile_image.getBytes());

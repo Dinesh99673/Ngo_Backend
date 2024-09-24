@@ -21,7 +21,7 @@ public class MediaService {
     @Autowired
     private MediaRepository mediaRepository;
 
-    @Value("${upload.event_images}")
+//    @Value("${upload.event_images}")
     private String eventDir;
 
     public List<Media> getAllMedia() {

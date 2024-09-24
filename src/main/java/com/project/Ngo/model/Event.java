@@ -26,6 +26,7 @@ public class Event {
     private String venue;
     private Timestamp start_date;
     private Timestamp end_date;
+    private Long fees;
     // Automatically set the current timestamp when the entity is first created
     @CreationTimestamp
     @Column(updatable = false)

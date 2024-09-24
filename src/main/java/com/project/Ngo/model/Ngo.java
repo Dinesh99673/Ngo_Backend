@@ -1,13 +1,16 @@
 package com.project.Ngo.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.sql.Date;
 import java.sql.Timestamp;
-
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -26,10 +29,11 @@ public class Ngo {
     private String registered_by;
     private String adhar_no;
     private String founder_name;
-    private Long founded_on;
+    private Date founded_on;
     private String category;
     private String website;
     private String location_link;
+    @Getter
     private String profile_path;
     private String profile_type;
     // Automatically set the current timestamp when the entity is first created
@@ -40,4 +44,11 @@ public class Ngo {
     // Automatically update the timestamp when the entity is modified
     @UpdateTimestamp
     private Timestamp updated_at;
+
+    // One NGO can have many fields
+    @JsonManagedReference
+    @Getter
+    @OneToMany(mappedBy = "ngo", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<NgoField> ngoFields = new ArrayList<>();
+
 }
