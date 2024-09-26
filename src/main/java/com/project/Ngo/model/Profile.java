@@ -1,18 +1,20 @@
 package com.project.Ngo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="profile")
@@ -20,7 +22,8 @@ public class Profile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private Long user_id;
+
     private String name;
     private String email;
     private String phone;
@@ -36,4 +39,20 @@ public class Profile {
     // Automatically update the timestamp when the entity is modified
     @UpdateTimestamp
     private Timestamp updated_at;
+
+    @JsonManagedReference(value="donor-reference")
+    @OneToMany(mappedBy = "donor",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private List<Transaction> Donations = new ArrayList<>();
+
+    @JsonManagedReference(value = "UserReview-reference")
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private List<EventReview> eventReviews = new ArrayList<>();
+
+    @JsonManagedReference(value="participant-reference")
+    @OneToMany(mappedBy = "participant",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private List<EventParticipant> eventParticipants = new ArrayList<>();
+
 }

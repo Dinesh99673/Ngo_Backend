@@ -1,15 +1,22 @@
 package com.project.Ngo.controller;
 
+import com.project.Ngo.model.Ngo;
 import com.project.Ngo.model.Profile;
 import com.project.Ngo.service.ProfileService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,17 +43,28 @@ public class ProfileController {
     // Endpoint to create a new profile with a profile image
     @PostMapping
     public ResponseEntity<?> createProfile(@ModelAttribute Profile profile, @RequestParam("profile") MultipartFile profile_image) throws IOException {
-        System.out.println("Profile: " + profile);  // Add this line to print profile details
-        //System.out.println("Profile Image: " + profile_image.getOriginalFilename());
         try {
             // Save profile and image
             Profile savedProfile = profileService.saveProfile(profile, profile_image);
             return ResponseEntity.ok(savedProfile); // Return the saved profile
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Here we are in Catch section");
             return ResponseEntity.status(500).body("Error uploading file"); // Handle error
         }
+    }
+
+    @GetMapping("/getprofileimage/{id}")
+    public ResponseEntity<Resource> getProfileImage(@PathVariable Long id) throws IOException {
+        Optional<Profile> profile = profileService.getProfileById(id);
+
+        Path imagepath = Paths.get(profile.get().getProfile_image());
+        String path = imagepath.toString();
+        path = path.replace("\\","/");
+        System.out.println(imagepath);
+        Resource resource =  new FileSystemResource(imagepath.toFile());
+        String contentType = Files.probeContentType(imagepath);
+
+        return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType)).body(resource);
     }
 
     // Endpoint to delete a profile by ID

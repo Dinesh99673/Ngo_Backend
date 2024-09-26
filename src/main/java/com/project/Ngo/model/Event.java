@@ -1,13 +1,18 @@
 package com.project.Ngo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Data
@@ -19,14 +24,19 @@ public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long event_id;
-    private Long ngo_id;
+
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ngo_id", nullable = false)
+    private Ngo ngo;
+
     private String title;
     private String description;
     private String location_link;
     private String venue;
-    private Timestamp start_date;
-    private Timestamp end_date;
     private Long fees;
+    private String poster_path;
+    private String poster_type;
     // Automatically set the current timestamp when the entity is first created
     @CreationTimestamp
     @Column(updatable = false)
@@ -35,4 +45,16 @@ public class Event {
     // Automatically update the timestamp when the entity is modified
     @UpdateTimestamp
     private Timestamp updated_at;
+
+    @JsonManagedReference(value="event-schedule-reference")
+    @OneToMany(mappedBy = "event")
+    private List<EventSchedule> eventSchedules = new ArrayList<>();
+
+    @JsonManagedReference(value="event-participant-reference")
+    @OneToMany(mappedBy = "event")
+    private List<EventParticipant> eventParticipants = new ArrayList<>();
+
+    @JsonManagedReference(value = "Event-reference")
+    @OneToMany(mappedBy = "event")
+    private List<EventReview> eventReviews = new ArrayList<>();
 }

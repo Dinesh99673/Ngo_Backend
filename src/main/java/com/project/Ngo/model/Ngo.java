@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -33,6 +34,7 @@ public class Ngo {
     private String category;
     private String website;
     private String location_link;
+    private String password;
     @Getter
     private String profile_path;
     private String profile_type;
@@ -47,8 +49,19 @@ public class Ngo {
 
     // One NGO can have many fields
     @JsonManagedReference
-    @Getter
     @OneToMany(mappedBy = "ngo", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<NgoField> ngoFields = new ArrayList<>();
+
+    @JsonManagedReference(value="donorNgo-reference")
+    @OneToMany(mappedBy = "donorNgo", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private List<Transaction> ngoDonations = new ArrayList<>();
+
+    @JsonManagedReference(value="recipientNgo-reference")
+    @OneToMany(mappedBy = "recipientNgo", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private List<Transaction> receivedDonations = new ArrayList<>();
+
+
 
 }

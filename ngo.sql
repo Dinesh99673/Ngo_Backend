@@ -29,7 +29,7 @@ CREATE TABLE Profile(
     phone VARCHAR(15),
     password VARCHAR(100) NOT NULL,
     adhar_no VARCHAR(20) UNIQUE NOT NULL,
-    profile_image VARCHAR(100),
+    profile_image VARCHAR(1000),
     image_type VARCHAR(50),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -49,7 +49,7 @@ CREATE TABLE Ngo(
     founded_on DATE,
     category VARCHAR(60),
     website VARCHAR(255),
-    profile_path VARCHAR(100),
+    profile_path VARCHAR(1000),
     profile_type VARCHAR(60),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -63,23 +63,13 @@ CREATE TABLE Event (
     description TEXT,
     location_link VARCHAR(255),
     venue VARCHAR(150),
-    start_date TIMESTAMP,
-    end_date TIMESTAMP,
-    fees VARCHAR(10);
-
+    fees INTEGER,
+    poster_path VARCHAR(1000),
+    poster_type VARCHAR(50),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-<--not used in new structure
-CREATE TABLE Donor(
-    donor_id SERIAL PRIMARY KEY,
-    type VARCHAR(10) CHECK (type IN ('NGO', 'User')) NOT NULL,
-    ngo_id INTEGER REFERENCES Ngo(ngo_id) ON DELETE CASCADE,
-    user_id INTEGER REFERENCES Profile(user_id) ON DELETE CASCADE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
 
 CREATE TABLE Transaction (
     transaction_id SERIAL PRIMARY KEY,
@@ -124,13 +114,20 @@ CREATE TABLE About_Review(
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE Media (
-    media_id SERIAL PRIMARY KEY,
-    ngo_id INTEGER REFERENCES Ngo(ngo_id) ON DELETE CASCADE,
-    event_id INTEGER REFERENCES Event(event_id) ON DELETE SET NULL,
-    file_path VARCHAR(100) NOT NULL,
-    file_type VARCHAR(50) NOT NULL,
-    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE Event_Schedule(
+    schedule_id SERIAL PRIMARY KEY,
+    event_id INTEGER REFERENCES Event(event_id) ON DELETE CASCADE,
+    event_date DATE NOT NULL,
+    start_time TIME NOT NULL,
+    end_time TIME NOT NULL,
+    UNIQUE (event_id, event_date)
+);
+
+CREATE TABLE Event_Participant (
+    participant_id SERIAL PRIMARY KEY,
+    event_id INTEGER REFERENCES Event(event_id) ON DELETE CASCADE,
+    user_id INTEGER REFERENCES Profile(user_id) ON DELETE CASCADE,
+    UNIQUE(event_id, user_id)
 );
 
 CREATE TABLE ngo_field(

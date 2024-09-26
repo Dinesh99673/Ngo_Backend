@@ -19,12 +19,12 @@ public class EventReviewController {
 
     @GetMapping
     public List<EventReview> getAllEventReviews() {
-        List<EventReview> eventReviews = eventReviewService.getAlleventReviews();
-        return eventReviews;
+        return eventReviewService.getAlleventReviews();
     }
 
     @PostMapping
     public EventReview saveEventReview(@RequestBody EventReview eventReview) {
+        System.out.println(eventReview);
         return eventReviewService.saveEventReview(eventReview);
     }
 

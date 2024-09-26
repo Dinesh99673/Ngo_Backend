@@ -1,5 +1,6 @@
 package com.project.Ngo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,9 +19,22 @@ public class NgoReview {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long review_id;
-    private Long user_id;
-    private Long ngo_id;
-    private Long reviewed_ngo_id;
+
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private Profile profile;
+
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ngo_id", nullable = false)
+    private Ngo ngo;
+
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ngo_id", nullable = false,insertable = false, updatable = false)
+    private Ngo reviewed_ngo;
+
     private String content;
     private float rating;
     // Automatically set the current timestamp when the entity is first created

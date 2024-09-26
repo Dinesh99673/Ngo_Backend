@@ -1,5 +1,6 @@
 package com.project.Ngo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,8 +19,18 @@ public class EventReview {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long review_id;
-    private Long user_id;
-    private Long event_id;
+
+    @JsonBackReference(value="UserReview-reference")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private Profile user;
+
+    @JsonBackReference(value="Event-reference")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "event_id", nullable = false)
+    private Event event;
+
+
     private String content;
     private float rating;
     // Automatically set the current timestamp when the entity is first created
@@ -30,4 +41,6 @@ public class EventReview {
     // Automatically update the timestamp when the entity is modified
     @UpdateTimestamp
     private Timestamp updated_at;
+
+
 }

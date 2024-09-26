@@ -25,7 +25,7 @@ public class TransactionController {
         return transactionService.getTransactionById(id);
     }
 
-    @PostMapping
+    @PostMapping(consumes = {"application/json", "application/json;charset=UTF-8"})
     public Transaction saveTransaction(@RequestBody Transaction transaction) {
         return transactionService.saveTransaction(transaction);
     }
