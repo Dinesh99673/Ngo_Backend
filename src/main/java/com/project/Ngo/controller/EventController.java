@@ -1,5 +1,6 @@
 package com.project.Ngo.controller;
 
+import com.project.Ngo.DTO.EventDetailsDTO;
 import com.project.Ngo.model.Event;
 import com.project.Ngo.model.Profile;
 import com.project.Ngo.service.EventService;
@@ -52,10 +53,10 @@ public class EventController {
 
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> saveEvent(@ModelAttribute Event event, @RequestParam("poster") MultipartFile poster_image) throws IOException {
+    public ResponseEntity<?> saveEvent(@ModelAttribute EventDetailsDTO eventDetailsDTO) throws IOException {
         try {
             // Save profile and image
-            Event savedEvent = eventService.saveEvent(event, poster_image);
+            Event savedEvent = eventService.saveEvent(eventDetailsDTO);
             return ResponseEntity.ok(savedEvent); // Return the saved profile
         } catch (IOException e) {
             e.printStackTrace();

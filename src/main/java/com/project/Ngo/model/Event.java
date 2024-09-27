@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,7 @@ public class Event {
     private String description;
     private String location_link;
     private String venue;
-    private Long fees;
+    private BigDecimal fees;
     private String poster_path;
     private String poster_type;
     // Automatically set the current timestamp when the entity is first created
