@@ -20,19 +20,19 @@ public class NgoReview {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long review_id;
 
-    @JsonBackReference
+    @JsonBackReference(value = "User-NGO-Review")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = true)
     private Profile profile;
 
-    @JsonBackReference
+    @JsonBackReference(value = "NGO-NGO-Review")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ngo_id", nullable = false)
+    @JoinColumn(name = "ngo_id", nullable = true)
     private Ngo ngo;
 
-    @JsonBackReference
+    @JsonBackReference(value = "Reviewed-NGO")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ngo_id", nullable = false,insertable = false, updatable = false)
+    @JoinColumn(name = "reviewed_ngo_id", nullable = false)
     private Ngo reviewed_ngo;
 
     private String content;

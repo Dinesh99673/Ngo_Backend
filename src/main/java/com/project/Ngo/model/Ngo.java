@@ -62,6 +62,17 @@ public class Ngo {
     @ToString.Exclude
     private List<Transaction> receivedDonations = new ArrayList<>();
 
+    @JsonManagedReference(value = "NGO-NGO-Review")
+    @OneToMany(mappedBy = "ngo", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
+    private List<NgoReview> ngoReviews = new ArrayList<>();
+
+    @JsonManagedReference(value = "Reviewed-NGO")
+    @OneToMany(mappedBy = "reviewed_ngo", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
+    private List<NgoReview> reviewedNgo = new ArrayList<>();
+
+    @JsonManagedReference(value = "About-NGO-Review")
+    @OneToMany(mappedBy = "ngo", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
+    private List<AboutReview> aboutReviews = new ArrayList<>();
 
 
 }

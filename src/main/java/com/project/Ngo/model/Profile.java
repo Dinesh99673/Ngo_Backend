@@ -55,4 +55,13 @@ public class Profile {
     @ToString.Exclude
     private List<EventParticipant> eventParticipants = new ArrayList<>();
 
+    @JsonManagedReference(value = "User-NGO-Review")
+    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
+    private List<NgoReview> userNgoReview = new ArrayList<>();
+
+    @JsonManagedReference(value = "About-User-Review")
+    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
+    private List<AboutReview> aboutUserReview = new ArrayList<>();
+
+
 }

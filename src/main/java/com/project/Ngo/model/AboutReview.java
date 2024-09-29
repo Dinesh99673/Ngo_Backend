@@ -20,14 +20,14 @@ public class AboutReview {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long review_id;
 
-    @JsonBackReference
+    @JsonBackReference(value = "About-User-Review")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = true)
     private Profile profile;
 
-    @JsonBackReference
+    @JsonBackReference(value = "About-NGO-Review")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ngo_id", nullable = false)
+    @JoinColumn(name = "ngo_id", nullable = true)
     private Ngo ngo;
 
     private String content;
