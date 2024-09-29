@@ -22,7 +22,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:5173")
-@RequestMapping("/field")
+@RequestMapping("/Field")
 public class NgoFieldController {
     @Autowired
     private NgoFieldService ngoFieldService;

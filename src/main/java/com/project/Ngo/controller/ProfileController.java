@@ -22,7 +22,7 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:5173") // Enable CORS for React frontend
 @RestController
-@RequestMapping("/profile")
+@RequestMapping("/Profile")
 public class ProfileController {
 
     @Autowired
