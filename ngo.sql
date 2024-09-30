@@ -1,3 +1,4 @@
+--code not in use yet
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -21,6 +22,7 @@ CREATE TRIGGER update_ngos_updated_at
 BEFORE UPDATE ON Ngo
 FOR EACH ROW
 EXECUTE FUNCTION update_updated_at_column();
+--Upper code not in use
 
 CREATE TABLE Profile(
     user_id SERIAL PRIMARY KEY,
@@ -48,7 +50,7 @@ CREATE TABLE Ngo(
 	founder_name VARCHAR(100) NOT NULL,
     founded_on DATE,
     category VARCHAR(60),
-    website VARCHAR(255),
+    website TEXT,
     profile_path VARCHAR(1000),
     profile_type VARCHAR(60),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -61,7 +63,7 @@ CREATE TABLE Event (
     ngo_id INTEGER REFERENCES Ngo(ngo_id) ON DELETE CASCADE,
     title VARCHAR(100) NOT NULL,
     description TEXT,
-    location_link VARCHAR(255),
+    location_link TEXT,
     venue VARCHAR(150),
     fees INTEGER,
     poster_path VARCHAR(1000),
@@ -133,7 +135,7 @@ CREATE TABLE Event_Participant (
 CREATE TABLE ngo_field(
     field_id SERIAL PRIMARY KEY,
     ngo_id INTEGER REFERENCES Ngo(ngo_id) ON DELETE CASCADE,
-    file_path VARCHAR(100) NOT NULL,
+    file_path VARCHAR(1000) NOT NULL,
     file_type VARCHAR(50) NOT NULL,
     field_name VARCHAR(50),
     field_content TEXT,
