@@ -2,7 +2,6 @@ package com.project.Ngo.controller;
 
 import com.project.Ngo.DTO.EventDetailsDTO;
 import com.project.Ngo.model.Event;
-import com.project.Ngo.model.Profile;
 import com.project.Ngo.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -10,7 +9,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -27,7 +25,7 @@ public class EventController {
     @Autowired
     private EventService eventService;
 
-    public EventController(EventService eventService){
+    public EventController(EventService eventService) {
         this.eventService = eventService;
     }
 
@@ -43,14 +41,13 @@ public class EventController {
 
         Path imagepath = Paths.get(event.get().getPoster_path());
         String path = imagepath.toString();
-        path = path.replace("\\","/");
+        path = path.replace("\\", "/");
         System.out.println(imagepath);
-        Resource resource =  new FileSystemResource(imagepath.toFile());
+        Resource resource = new FileSystemResource(imagepath.toFile());
         String contentType = Files.probeContentType(imagepath);
 
         return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType)).body(resource);
     }
-
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> saveEvent(@ModelAttribute EventDetailsDTO eventDetailsDTO) throws IOException {

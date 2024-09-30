@@ -1,7 +1,6 @@
 package com.project.Ngo.service;
 
 import com.project.Ngo.Repository.ProfileRepository;
-import com.project.Ngo.model.Ngo;
 import com.project.Ngo.model.Profile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,8 +47,7 @@ public class ProfileService {
         profile.setProfile_image(path);
         profile.setImage_type(profile_image.getContentType());
 
-        //profile.setProfile_image("Yoooo");
-
+        // profile.setProfile_image("Yoooo");
 
         return profileRepository.save(profile);
     }

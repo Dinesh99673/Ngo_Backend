@@ -1,6 +1,5 @@
 package com.project.Ngo.controller;
 
-import com.project.Ngo.model.Ngo;
 import com.project.Ngo.model.Profile;
 import com.project.Ngo.service.ProfileService;
 import jakarta.servlet.http.HttpSession;
@@ -42,7 +41,8 @@ public class ProfileController {
 
     // Endpoint to create a new profile with a profile image
     @PostMapping
-    public ResponseEntity<?> createProfile(@ModelAttribute Profile profile, @RequestParam("profile") MultipartFile profile_image) throws IOException {
+    public ResponseEntity<?> createProfile(@ModelAttribute Profile profile,
+            @RequestParam("profile") MultipartFile profile_image) throws IOException {
         try {
             // Save profile and image
             Profile savedProfile = profileService.saveProfile(profile, profile_image);
@@ -59,9 +59,9 @@ public class ProfileController {
 
         Path imagepath = Paths.get(profile.get().getProfile_image());
         String path = imagepath.toString();
-        path = path.replace("\\","/");
+        path = path.replace("\\", "/");
         System.out.println(imagepath);
-        Resource resource =  new FileSystemResource(imagepath.toFile());
+        Resource resource = new FileSystemResource(imagepath.toFile());
         String contentType = Files.probeContentType(imagepath);
 
         return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType)).body(resource);

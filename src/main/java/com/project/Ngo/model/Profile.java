@@ -1,6 +1,5 @@
 package com.project.Ngo.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,13 +10,12 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="profile")
+@Table(name = "profile")
 public class Profile {
 
     @Id
@@ -40,28 +38,27 @@ public class Profile {
     @UpdateTimestamp
     private Timestamp updated_at;
 
-    @JsonManagedReference(value="donor-reference")
-    @OneToMany(mappedBy = "donor",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonManagedReference(value = "donor-reference")
+    @OneToMany(mappedBy = "donor", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<Transaction> Donations = new ArrayList<>();
 
     @JsonManagedReference(value = "UserReview-reference")
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<EventReview> eventReviews = new ArrayList<>();
 
-    @JsonManagedReference(value="participant-reference")
-    @OneToMany(mappedBy = "participant",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonManagedReference(value = "participant-reference")
+    @OneToMany(mappedBy = "participant", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<EventParticipant> eventParticipants = new ArrayList<>();
 
     @JsonManagedReference(value = "User-NGO-Review")
-    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<NgoReview> userNgoReview = new ArrayList<>();
 
     @JsonManagedReference(value = "About-User-Review")
-    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<AboutReview> aboutUserReview = new ArrayList<>();
-
 
 }

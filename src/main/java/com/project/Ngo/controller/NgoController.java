@@ -1,7 +1,6 @@
 package com.project.Ngo.controller;
 
 import com.project.Ngo.model.Ngo;
-import com.project.Ngo.model.Profile;
 import com.project.Ngo.service.NgoService;
 import org.springframework.core.io.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,15 +20,13 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
-//@RequestMapping("/ngo")
+// @RequestMapping("/ngo")
 public class NgoController {
-
-    private String profileDir = System.getProperty("user.dir")+"/uploads/ngo_images";
 
     @Autowired
     private NgoService ngoService;
 
-    public NgoController(NgoService ngoService){
+    public NgoController(NgoService ngoService) {
         this.ngoService = ngoService;
     }
 
@@ -52,9 +49,9 @@ public class NgoController {
 
         Path imagepath = Paths.get(ngo.get().getProfile_path());
         String path = imagepath.toString();
-        path = path.replace("\\","/");
+        path = path.replace("\\", "/");
         System.out.println(imagepath);
-        Resource resource =  new FileSystemResource(imagepath.toFile());
+        Resource resource = new FileSystemResource(imagepath.toFile());
         String contentType = Files.probeContentType(imagepath);
 
         return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType)).body(resource);
@@ -62,17 +59,14 @@ public class NgoController {
 
     @PostMapping
     public ResponseEntity<?> saveNgo(@ModelAttribute Ngo ngo,
-                                           @RequestParam("profile") MultipartFile profile_image
-    ) throws IOException {
+            @RequestParam("profile") MultipartFile profile_image) throws IOException {
         try {
-            Ngo savedNgo = ngoService.saveNgo(ngo,profile_image);
+            Ngo savedNgo = ngoService.saveNgo(ngo, profile_image);
             return ResponseEntity.ok(savedNgo);
         } catch (IOException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading file");
         }
     }
-
-
 
 }

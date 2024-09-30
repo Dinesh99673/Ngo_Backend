@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -21,8 +20,8 @@ public class NgoService {
     @Autowired
     private NgoRepository ngoRepository;
 
-    private String profileDir = System.getProperty("user.dir")+"\\uploads\\ngo_images";
-//private String profileDir = upload.ngo_images
+    private String profileDir = System.getProperty("user.dir") + "\\uploads\\ngo_images";
+    // private String profileDir = upload.ngo_images
 
     public List<Ngo> getAllngos() {
         System.out.println(profileDir);
@@ -34,7 +33,6 @@ public class NgoService {
 
         return ngoRepository.findById(id);
     }
-
 
     public Ngo saveNgo(Ngo ngo, MultipartFile profile_image) throws IOException {
         String fileName = UUID.randomUUID().toString() + "_" + profile_image.getOriginalFilename();
@@ -49,8 +47,6 @@ public class NgoService {
         // Save the file path in the database
         ngo.setProfile_path(path);
         ngo.setProfile_type(profile_image.getContentType());
-
-
 
         return ngoRepository.save(ngo);
     }

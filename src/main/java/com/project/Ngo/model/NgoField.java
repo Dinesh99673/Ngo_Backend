@@ -1,12 +1,8 @@
 package com.project.Ngo.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.project.Ngo.model.Ngo;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import java.security.Timestamp;
 
 @Entity
 @Data
@@ -14,7 +10,7 @@ import java.security.Timestamp;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="ngo_field")
+@Table(name = "ngo_field")
 public class NgoField {
 
     @Id

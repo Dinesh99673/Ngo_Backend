@@ -12,7 +12,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.math.BigDecimal;
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -25,17 +24,17 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long transaction_id;
 
-    @JsonBackReference(value="donor-reference")
+    @JsonBackReference(value = "donor-reference")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = true)
     private Profile donor;
 
-    @JsonBackReference(value="donorNgo-reference")
+    @JsonBackReference(value = "donorNgo-reference")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ngo_id", nullable = true)
     private Ngo donorNgo;
 
-    @JsonBackReference(value="recipientNgo-reference")
+    @JsonBackReference(value = "recipientNgo-reference")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recipient_id", nullable = false)
     private Ngo recipientNgo;
@@ -52,4 +51,5 @@ public class Transaction {
 
     // Automatically update the timestamp when the entity is modified
     @UpdateTimestamp
-    private Timestamp updated_at;}
+    private Timestamp updated_at;
+}

@@ -5,10 +5,8 @@ import com.project.Ngo.Repository.EventScheduleRepository;
 import com.project.Ngo.model.Event;
 import com.project.Ngo.Repository.EventRepository;
 import com.project.Ngo.model.EventSchedule;
-import com.project.Ngo.model.Profile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -74,7 +72,6 @@ public class EventService {
 
         return savedEvent;
     }
-
 
     public void deleteEvent(Long id) {
         eventRepository.deleteById(id);
