@@ -65,7 +65,6 @@ public class ProfileService {
         if (!user.getPassword().equals(password)) {
             throw new Exception("Invalid password");
         }
-
         return user; // User successfully authenticated
     }
 }

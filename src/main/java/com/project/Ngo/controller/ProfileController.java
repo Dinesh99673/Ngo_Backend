@@ -17,9 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Optional;
-
-@CrossOrigin(origins = "http://localhost:5173") // Enable CORS for React frontend
+import java.util.Optional;@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 @RestController
 @RequestMapping("/Profile")
 public class ProfileController {
@@ -33,6 +31,17 @@ public class ProfileController {
         return profileService.getAllProfiles();
     }
 
+    @GetMapping("/account")
+    public ResponseEntity<?> getAccountDetails(HttpSession session) {
+        Profile loggedInUser = (Profile) session.getAttribute("loggedInUser");
+        System.out.println("Session after login: " + loggedInUser);
+        if (loggedInUser != null) {
+            return ResponseEntity.ok(loggedInUser); // Return user details as JSON
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in"); // Unauthorized response
+        }
+    }
+
     // Endpoint to get a profile by ID
     @GetMapping("/{id}")
     public Optional<Profile> getProfileById(@PathVariable Long id) {
@@ -42,7 +51,7 @@ public class ProfileController {
     // Endpoint to create a new profile with a profile image
     @PostMapping
     public ResponseEntity<?> createProfile(@ModelAttribute Profile profile,
-            @RequestParam("profile") MultipartFile profile_image) throws IOException {
+                                           @RequestParam("profile") MultipartFile profile_image) throws IOException {
         try {
             // Save profile and image
             Profile savedProfile = profileService.saveProfile(profile, profile_image);
@@ -78,14 +87,15 @@ public class ProfileController {
             @RequestParam String email,
             @RequestParam String password,
             HttpSession session) {
-
         try {
             Profile user = profileService.loginUser(email, password);
-
-            // Store user in session
-            session.setAttribute("loggedInUser", user);
-
-            return ResponseEntity.ok("Login successful");
+            if (user != null) {
+                session.setAttribute("loggedInUser", user); // Set user in session
+                System.out.println("Session after login: " + session.getAttribute("loggedInUser"));
+                return ResponseEntity.ok("Login successful");
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+            }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }

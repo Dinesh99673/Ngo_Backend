@@ -36,6 +36,7 @@ public class NgoController {
         return Ngos;
     }
 
+
     @GetMapping("/{id}")
     public ResponseEntity<Ngo> getNgoById(@PathVariable Long id) {
         Optional<Ngo> ngo = ngoService.getNgoById(id);
