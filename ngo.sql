@@ -24,6 +24,7 @@ FOR EACH ROW
 EXECUTE FUNCTION update_updated_at_column();
 --Upper code not in use
 
+
 CREATE TABLE Profile(
     user_id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -31,7 +32,7 @@ CREATE TABLE Profile(
     phone VARCHAR(15),
     password VARCHAR(100) NOT NULL,
     adhar_no VARCHAR(20) UNIQUE NOT NULL,
-    profile_image VARCHAR(1000),
+    profile_image TEXT,
     image_type VARCHAR(50),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -51,7 +52,7 @@ CREATE TABLE Ngo(
     founded_on DATE,
     category VARCHAR(60),
     website TEXT,
-    profile_path VARCHAR(1000),
+    profile_path TEXT,
     profile_type VARCHAR(60),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -66,7 +67,7 @@ CREATE TABLE Event (
     location_link TEXT,
     venue VARCHAR(150),
     fees INTEGER,
-    poster_path VARCHAR(1000),
+    poster_path TEXT,
     poster_type VARCHAR(50),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -135,9 +136,9 @@ CREATE TABLE Event_Participant (
 CREATE TABLE ngo_field(
     field_id SERIAL PRIMARY KEY,
     ngo_id INTEGER REFERENCES Ngo(ngo_id) ON DELETE CASCADE,
-    file_path VARCHAR(1000) NOT NULL,
+    file_path TEXT NOT NULL,
     file_type VARCHAR(50) NOT NULL,
-    field_name VARCHAR(50),
+    field_name TEXT,
     field_content TEXT,
     uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

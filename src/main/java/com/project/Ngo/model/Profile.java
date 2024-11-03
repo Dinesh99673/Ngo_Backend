@@ -6,6 +6,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "profile")
-public class Profile {
+public class Profile implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

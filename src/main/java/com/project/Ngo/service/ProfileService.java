@@ -60,6 +60,7 @@ public class ProfileService {
     public Profile loginUser(String email, String password) throws Exception {
         Profile user = profileRepository.findByEmail(email)
                 .orElseThrow(() -> new Exception("User not found"));
+        System.out.println("User Details are :- "+user.getName());
 
         // Compare the plain text password (in production, use password encryption)
         if (!user.getPassword().equals(password)) {

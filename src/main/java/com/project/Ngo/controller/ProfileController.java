@@ -3,6 +3,7 @@ package com.project.Ngo.controller;
 import com.project.Ngo.model.Profile;
 import com.project.Ngo.service.ProfileService;
 import jakarta.servlet.http.HttpSession;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -16,8 +17,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Enumeration;
 import java.util.List;
-import java.util.Optional;@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+import java.util.Optional;
+
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 @RestController
 @RequestMapping("/Profile")
 public class ProfileController {
@@ -33,9 +37,14 @@ public class ProfileController {
 
     @GetMapping("/account")
     public ResponseEntity<?> getAccountDetails(HttpSession session) {
+
+        if(session==null){
+            System.out.println("session is not sended from fronend "+session);
+        }
         Profile loggedInUser = (Profile) session.getAttribute("loggedInUser");
         System.out.println("Session after login: " + loggedInUser);
         if (loggedInUser != null) {
+            System.out.println("Logged In details :- "+loggedInUser);
             return ResponseEntity.ok(loggedInUser); // Return user details as JSON
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in"); // Unauthorized response
@@ -83,20 +92,23 @@ public class ProfileController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(
+    public ResponseEntity<?> login(
             @RequestParam String email,
             @RequestParam String password,
             HttpSession session) {
         try {
             Profile user = profileService.loginUser(email, password);
+            System.out.println("After retriving the user from login function \n");
             if (user != null) {
                 session.setAttribute("loggedInUser", user); // Set user in session
-                System.out.println("Session after login: " + session.getAttribute("loggedInUser"));
-                return ResponseEntity.ok("Login successful");
+                System.out.println("\nSession before login: " + session.getAttribute("loggedInUser"));
+                return ResponseEntity.ok(session.getAttribute("loggedInUser"));
             } else {
+                System.out.println("In else part of login\n");
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
             }
         } catch (Exception e) {
+            System.out.println("Inside the Catch block\n");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
     }
