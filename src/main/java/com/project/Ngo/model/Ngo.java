@@ -23,6 +23,7 @@ public class Ngo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ngo_id;
     private String name;
+    @Column(length = 1000)
     private String description;
     private String email;
     private String phone;

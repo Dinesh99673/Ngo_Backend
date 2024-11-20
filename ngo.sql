@@ -41,7 +41,7 @@ CREATE TABLE Profile(
 CREATE TABLE Ngo(
     ngo_id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    description TEXT,
+    description VARCHAR(1000),
     location_link VARCHAR(255),
     email VARCHAR(100) UNIQUE NOT NULL,
     phone VARCHAR(15),
