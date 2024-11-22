@@ -32,7 +32,7 @@ public class NgoReview {
 
     @JsonBackReference(value = "Reviewed-NGO")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reviewed_ngo_id", nullable = false)
+    @JoinColumn(name = "reviewed_ngo_id", nullable = true)
     private Ngo reviewed_ngo;
 
     private String content;
@@ -45,4 +45,6 @@ public class NgoReview {
     // Automatically update the timestamp when the entity is modified
     @UpdateTimestamp
     private Timestamp updated_at;
+
+
 }

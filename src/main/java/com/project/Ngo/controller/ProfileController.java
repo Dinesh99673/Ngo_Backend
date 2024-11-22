@@ -42,9 +42,7 @@ public class ProfileController {
             System.out.println("session is not sended from fronend "+session);
         }
         Profile loggedInUser = (Profile) session.getAttribute("loggedInUser");
-        System.out.println("Session after login: " + loggedInUser);
         if (loggedInUser != null) {
-            System.out.println("Logged In details :- "+loggedInUser);
             return ResponseEntity.ok(loggedInUser); // Return user details as JSON
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in"); // Unauthorized response
@@ -100,7 +98,7 @@ public class ProfileController {
             Profile user = profileService.loginUser(email, password);
             System.out.println("After retriving the user from login function \n");
             if (user != null) {
-                session.setAttribute("loggedInUser", user); // Set user in session
+                session.setAttribute("loggedInUser", user);
                 System.out.println("\nSession before login: " + session.getAttribute("loggedInUser"));
                 return ResponseEntity.ok(session.getAttribute("loggedInUser"));
             } else {
