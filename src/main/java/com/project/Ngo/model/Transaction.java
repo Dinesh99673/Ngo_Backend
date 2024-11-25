@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -18,11 +19,16 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "transaction")
-public class Transaction {
+public class Transaction implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long transaction_id;
+
+    private String orderId;
+    private String paymentId;
+    private String signature;
 
     @JsonBackReference(value = "donor-reference")
     @ManyToOne(fetch = FetchType.LAZY)

@@ -7,9 +7,11 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
+import java.io.Serializable;
+
 @Configuration
 @EnableRedisHttpSession // Enable Redis-based session management
-public class RedisConfig {
+public class RedisConfig{
     @Bean
     public RedisSerializer<Object> redisSerializer() {
         return new GenericJackson2JsonRedisSerializer();

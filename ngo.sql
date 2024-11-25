@@ -76,12 +76,15 @@ CREATE TABLE Event (
 
 CREATE TABLE Transaction (
     transaction_id SERIAL PRIMARY KEY,
+    order_id VARCHAR(100),
+    payment_id VARCHAR(100),
+    signature VARCHAR(100),
     ngo_id INTEGER REFERENCES Ngo(ngo_id) ON DELETE CASCADE,
     user_id INTEGER REFERENCES Profile(user_id) ON DELETE CASCADE,
     recipient_id INTEGER REFERENCES Ngo(ngo_id) ON DELETE CASCADE,
     amount DECIMAL(15, 2) NOT NULL,
     transaction_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    status VARCHAR(10) CHECK (status IN ('Success', 'Failed')) NOT NULL,
+    status VARCHAR(10) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -90,7 +93,7 @@ CREATE TABLE Event_Review(
     review_id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES Profile(user_id) ON DELETE SET NULL,
     event_id INTEGER REFERENCES Event(event_id) ON DELETE CASCADE,
-    content TEXT NOT NULL,
+    content TEXT ,
     rating DECIMAL(2,1),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -101,7 +104,7 @@ CREATE TABLE Ngo_Review(
     user_id INTEGER REFERENCES Profile(user_id) ON DELETE SET NULL,
     ngo_id INTEGER REFERENCES Ngo(ngo_id) ON DELETE CASCADE,
     reviewed_ngo_id INTEGER REFERENCES Ngo(ngo_id) ON DELETE CASCADE,
-    content TEXT NOT NULL,
+    content TEXT,
     rating DECIMAL(2,1),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -111,7 +114,7 @@ CREATE TABLE About_Review(
     review_id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES Profile(user_id) ON DELETE SET NULL,
     ngo_id INTEGER REFERENCES Ngo(ngo_id) ON DELETE CASCADE,
-    content TEXT NOT NULL,
+    content TEXT ,
     rating DECIMAL(2,1),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
