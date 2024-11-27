@@ -3,6 +3,7 @@ package com.project.Ngo.controller;
 import com.project.Ngo.model.Ngo;
 import com.project.Ngo.model.Profile;
 import com.project.Ngo.model.Transaction;
+import com.project.Ngo.service.EmailService;
 import com.project.Ngo.service.TransactionService;
 import com.razorpay.Order;
 import com.razorpay.RazorpayClient;
@@ -29,6 +30,9 @@ public class TransactionController implements Serializable {
     private static final long serialVersionUID = 1L;
     @Autowired
     private TransactionService transactionService;
+
+    @Autowired
+    private EmailService emailService;
 
     @GetMapping
     public List<Transaction> getAllTransactions() {
@@ -79,7 +83,6 @@ public class TransactionController implements Serializable {
         String orderId = data.get("razorpay_order_id");
         String paymentId = data.get("razorpay_payment_id");
         String razorpaySignature = data.get("razorpay_signature");
-
         String secret = razorpaySecret; // Ensure this matches Razorpay's secret
 
         try {
@@ -114,6 +117,7 @@ public class TransactionController implements Serializable {
                 payment.setOrderId(orderId);
                 payment.setSignature(razorpaySignature);
                 transactionService.saveTransaction(payment);
+                handleTransactionSuccess(data.get("email"),new BigDecimal(data.get("amount")),data.get("NgoName"));
                 return ResponseEntity.ok("Payment verified successfully");
             } else {
                 Transaction payment = new Transaction();
@@ -135,6 +139,12 @@ public class TransactionController implements Serializable {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error during signature verification");
         }
+    }
+
+    public void handleTransactionSuccess(String donorEmail,BigDecimal amt,String name) {
+        String subject = "Donation Receipt";
+        String body = "Thank you for your donation to "+name+"! Your transaction of Rs "+amt+" was successful.";
+        emailService.sendReceiptEmail(donorEmail, subject, body);
     }
 
     // Helper method to convert byte array to hexadecimal string

@@ -67,6 +67,7 @@ CREATE TABLE Event (
     location_link TEXT,
     venue VARCHAR(150),
     fees INTEGER,
+    date DATE,
     poster_path TEXT,
     poster_type VARCHAR(50),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 
 @Getter
 @Setter
@@ -19,7 +20,5 @@ public class EventDetailsDTO {
     private String venue;
     private BigDecimal fees;
     private MultipartFile poster;
-
-    private EventSchedule[] schedule;
-
+    private Date date;
 }

@@ -21,8 +21,6 @@ public class EventService {
 
     @Autowired
     private EventRepository eventRepository;
-    @Autowired
-    private EventScheduleRepository eventScheduleRepository;
 
     // Directory for profile images
     private final String profileDir = System.getProperty("user.dir") + "\\uploads\\ngo_images";
@@ -43,6 +41,7 @@ public class EventService {
         event.setLocation_link(eventDetailsDTO.getLocation_link());
         event.setVenue(eventDetailsDTO.getVenue());
         event.setFees(eventDetailsDTO.getFees());
+        event.setDate(eventDetailsDTO.getDate());
 
         String fileName = UUID.randomUUID().toString() + "_" + eventDetailsDTO.getPoster().getOriginalFilename();
 
@@ -58,17 +57,6 @@ public class EventService {
         event.setPoster_type(eventDetailsDTO.getPoster().getContentType());
 
         Event savedEvent = eventRepository.save(event);
-
-        for (EventSchedule scheduleDTO : eventDetailsDTO.getSchedule()) {
-            EventSchedule schedule = new EventSchedule();
-            schedule.setEvent(savedEvent);
-            schedule.setStart_time(scheduleDTO.getStart_time());
-            schedule.setEnd_time(scheduleDTO.getEnd_time());
-            schedule.setEvent_date(scheduleDTO.getEvent_date());
-            // Add other schedule fields as needed
-
-            eventScheduleRepository.save(schedule);
-        }
 
         return savedEvent;
     }
