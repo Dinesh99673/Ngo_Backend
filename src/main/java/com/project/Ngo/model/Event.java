@@ -10,6 +10,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ public class Event {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ngo_id", nullable = false)
     private Ngo ngo;
-
+    private Date date;
     private String title;
     private String description;
     private String location_link;

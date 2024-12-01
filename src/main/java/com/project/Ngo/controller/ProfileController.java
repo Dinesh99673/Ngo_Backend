@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -23,8 +24,8 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 @RestController
 @RequestMapping("/Profile")
-public class ProfileController {
-
+public class ProfileController implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Autowired
     private ProfileService profileService;
 
