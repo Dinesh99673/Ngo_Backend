@@ -1,7 +1,10 @@
 package com.project.Ngo.service;
 
+import com.project.Ngo.Repository.NgoRepository;
 import com.project.Ngo.Repository.ProfileRepository;
+import com.project.Ngo.model.Ngo;
 import com.project.Ngo.model.Profile;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,6 +19,9 @@ import java.util.UUID;
 
 @Service
 public class ProfileService {
+
+    @Autowired
+    private NgoRepository ngoRepository;
 
     @Autowired
     private ProfileRepository profileRepository;
@@ -68,4 +74,18 @@ public class ProfileService {
         }
         return user; // User successfully authenticated
     }
+    @Transactional
+    public Ngo loginNgo(String email, String password) throws Exception {
+        System.out.println("ngo Details are :- "+email+password);
+
+        Ngo ngo = ngoRepository.findByEmail(email)
+                .orElseThrow(() -> new Exception("ngo not found"));
+        // Compare the plain text password (in production, use password encryption)
+        if (!ngo.getPassword().equals(password)) {
+            System.out.println("invalid");
+            throw new Exception("Invalid password");
+        }
+        return ngo; //
+    }
+
 }

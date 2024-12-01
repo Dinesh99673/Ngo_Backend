@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -16,8 +18,10 @@ import java.util.List;
 
 @Entity
 @Data
+@Getter
+@Setter
 @Table(name="ngo")
-public class Ngo {
+public class Ngo implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -74,6 +78,14 @@ public class Ngo {
     @JsonManagedReference(value = "About-NGO-Review")
     @OneToMany(mappedBy = "ngo", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
     private List<AboutReview> aboutReviews = new ArrayList<>();
+
+    @JsonManagedReference(value = "NGO-Event-Reference")
+    @OneToMany(mappedBy = "ngo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private List<Event> events = new ArrayList<>();
+
+
+
 
 
 }

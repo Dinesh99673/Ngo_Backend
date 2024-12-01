@@ -20,6 +20,6 @@ public class EventDetailsDTO {
     private BigDecimal fees;
     private MultipartFile poster;
 
-    private EventSchedule[] schedule;
+//    private EventSchedule[] schedule;
 
 }

@@ -24,7 +24,7 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long event_id;
 
-    @JsonBackReference
+    @JsonBackReference(value = "NGO-Event-Reference")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ngo_id", nullable = false)
     private Ngo ngo;
@@ -44,6 +44,7 @@ public class Event {
     // Automatically update the timestamp when the entity is modified
     @UpdateTimestamp
     private Timestamp updated_at;
+
 
     @JsonManagedReference(value = "event-schedule-reference")
     @OneToMany(mappedBy = "event")

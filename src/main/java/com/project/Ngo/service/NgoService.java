@@ -51,6 +51,19 @@ public class NgoService {
         return ngoRepository.save(ngo);
     }
 
+    public Ngo updateNgo(Long id, Ngo ngo) {
+        return ngoRepository.findById(id).map(existingNgo -> {
+            existingNgo.setName(ngo.getName());
+            existingNgo.setDescription(ngo.getDescription());
+            existingNgo.setEmail(ngo.getEmail());
+            existingNgo.setPhone(ngo.getPhone());
+            existingNgo.setCategory(ngo.getCategory());
+            existingNgo.setWebsite(ngo.getWebsite());
+            // Update any other fields as necessary
+            return ngoRepository.save(existingNgo);
+        }).orElse(null);
+    }
+
     public void deleteNgo(Long id) {
         ngoRepository.deleteById(id);
     }

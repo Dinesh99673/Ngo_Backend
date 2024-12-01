@@ -39,6 +39,7 @@ public class NgoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Ngo> getNgoById(@PathVariable Long id) {
+        System.out.println(id);
         Optional<Ngo> ngo = ngoService.getNgoById(id);
         return ngo.map(n -> new ResponseEntity<>(n, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -69,6 +70,17 @@ public class NgoController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading file");
         }
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Ngo> updateNgo(@PathVariable Long id, @RequestBody Ngo ngo) {
+        Ngo updatedNgo = ngoService.updateNgo(id, ngo);
+        if (updatedNgo != null) {
+            return ResponseEntity.ok(updatedNgo);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
 
 }
