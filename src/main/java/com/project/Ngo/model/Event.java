@@ -29,7 +29,6 @@ public class Event {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ngo_id", nullable = false)
     private Ngo ngo;
-    private Date date;
     private String title;
     private String description;
     private String location_link;
