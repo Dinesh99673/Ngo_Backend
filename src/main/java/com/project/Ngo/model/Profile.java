@@ -60,8 +60,8 @@ public class Profile implements Serializable {
     @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<NgoReview> userNgoReview = new ArrayList<>();
 
-    @JsonManagedReference(value = "About-User-Review")
-    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<AboutReview> aboutUserReview = new ArrayList<>();
+//    @JsonManagedReference(value = "About-User-Review")
+//    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+//    private List<AboutReview> aboutUserReview = new ArrayList<>();
 
 }

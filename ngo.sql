@@ -145,3 +145,11 @@ CREATE TABLE ngo_field(
     field_content TEXT,
     uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE contactUs(
+    contactId PRIMARY KEY ,
+    user_id INTEGER REFERENCES Profile(user_id) ON DELETE CASCADE,
+    name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL
+    contact_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

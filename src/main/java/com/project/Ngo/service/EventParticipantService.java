@@ -26,6 +26,7 @@ public class EventParticipantService {
         return eventParticipantRepository.save(eventParticipant);
     }
 
+
     public void deleteEventParticipant(Long id) {
         eventParticipantRepository.deleteById(id);
     }

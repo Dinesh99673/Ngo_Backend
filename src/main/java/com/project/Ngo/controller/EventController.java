@@ -33,7 +33,17 @@ public class EventController {
         return eventService.getAllevents();
     }
 
-    @GetMapping("/{ngoId}")
+    @GetMapping("/{id}")
+    public ResponseEntity<Event> getEventById(@PathVariable Long id) {
+        Event event = eventService.getEventById(id);
+        if (event != null) {
+            return ResponseEntity.ok(event);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    @GetMapping("/ngo/{ngoId}")
     public ResponseEntity<List<Event>> getEventsByNgoId(@PathVariable Long ngoId) {
         List<Event> events = eventService.getEventsByNgoId(ngoId);
         return ResponseEntity.ok(events);
@@ -51,14 +61,32 @@ public class EventController {
             return ResponseEntity.status(500).body("Error uploading file"); // Handle error
         }
     }
+    @PutMapping("/{eventId}")
+    public ResponseEntity<Event> updateEvent(
+            @PathVariable Long eventId,
+            @RequestBody Event updatedEvent) {  // Include NGO ID to ensure ownership validation
+
+        Event event = eventService.updateEvent(eventId, updatedEvent);
+        return ResponseEntity.ok(event);
+    }
+
+    @DeleteMapping("/{eventId}")
+    public ResponseEntity<String> deleteEvent(@PathVariable Long eventId) {
+        boolean isDeleted = eventService.deleteEvent(eventId);
+        if (isDeleted) {
+            return ResponseEntity.ok("Event deleted successfully!");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Event not found!");
+        }
+    }
 
 
 
     @GetMapping("/getPosterimage/{id}")
     public ResponseEntity<Resource> getPosterImage(@PathVariable Long id) throws IOException {
-        Optional<Event> event = eventService.getEventById(id);
+        Event event = eventService.getEventById(id);
 
-        Path imagepath = Paths.get(event.get().getPoster_path());
+        Path imagepath = Paths.get(event.getPoster_path());
         String path = imagepath.toString();
         path = path.replace("\\", "/");
         System.out.println(imagepath);

@@ -16,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -83,8 +84,31 @@ public class NgoFieldController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading file");
         }
     }
-    // @DeleteMapping("/{id}")
-    // public void deleteNgoField(@PathVariable Long id) {
-    // ngoFieldService.deleteNgoField(id);
-    // }
+
+    @PutMapping("/{ngoId}/related-fields/{fieldId}")
+    public ResponseEntity<?> updateRelatedField(
+            @PathVariable Long ngoId,
+            @PathVariable Long fieldId,
+            @RequestParam("field_name") String fieldName,
+            @RequestParam("field_content") String fieldContent,
+            @RequestParam(value = "file_data", required = false) MultipartFile fileData) {
+        try {
+            // Call the service to update the related field
+            NgoField updatedField = ngoFieldService.updateRelatedField(ngoId, fieldId, fieldName, fieldContent, fileData);
+
+            // Return the updated field as a response
+            return ResponseEntity.ok(updatedField);
+        } catch (IllegalArgumentException e) {
+            // Return error message for bad requests
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            // Handle other exceptions
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating related field.");
+        }
+    }
+     @DeleteMapping("/{id}")
+     public void deleteNgoField(@PathVariable Long id) {
+         System.out.println(id);
+     ngoFieldService.deleteNgoField(id);
+     }
 }

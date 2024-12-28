@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalTime;
 
 @Data
 @Entity
@@ -28,8 +29,8 @@ public class EventSchedule {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date event_date;
     @JsonFormat(pattern = "HH:mm:ss")
-    private Time start_time;
+    private LocalTime  start_time;
     @JsonFormat(pattern = "HH:mm:ss")
-    private Time end_time;
+    private LocalTime end_time;
 
 }

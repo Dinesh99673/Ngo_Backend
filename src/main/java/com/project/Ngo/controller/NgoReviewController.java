@@ -5,6 +5,7 @@ import com.project.Ngo.model.NgoReview;
 import com.project.Ngo.model.Profile;
 import com.project.Ngo.service.NgoService;
 import com.project.Ngo.service.NgoReviewService;
+import com.project.Ngo.service.ProfileService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,9 @@ public class NgoReviewController {
     @Autowired
     private NgoService ngoService;
 
+    @Autowired
+    private ProfileService profileService;
+
     public NgoReviewController(NgoReviewService ngoReviewService, NgoService ngoService) {
         this.ngoReviewService = ngoReviewService;
         this.ngoService = ngoService;
@@ -38,27 +42,34 @@ public class NgoReviewController {
 
     @PostMapping
     public ResponseEntity<?> saveNgoReview(@RequestBody Map<String, Object> payload, HttpSession session) {
-        // Get the logged-in user from the session
-        Profile user = (Profile) session.getAttribute("loggedInUser");
-        if (user == null) {
+        // Retrieve the user ID from the session
+        Long userId = (Long) session.getAttribute("id");
+        if (userId == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in.");
         }
 
-        Long userId = user.getUser_id();  // Extract the user's ID
-        System.out.println("Logged-in user: " + user);
+        // Fetch the Profile object from the database
+        Optional<Profile> userOptional = profileService.getProfileById(userId);
+
+        if (userOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Please log in as a user ");
+        }
+
+        Profile user = userOptional.get();
 
         // Extract the NGO ID and rating from the payload
         int ngoId = (int) payload.get("ngo_id");
         int rating = (int) payload.get("rating");
 
         // Fetch the NGO from the database
-        Optional<Ngo> ngo = ngoService.getNgoById((long) ngoId);
-        if (ngo.isEmpty()) {
+        Optional<Ngo> ngoOptional = ngoService.getNgoById((long) ngoId);
+        if (ngoOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("NGO with ID " + ngoId + " not found.");
         }
+        Ngo ngo = ngoOptional.get();
 
         // Check if the user has already rated this NGO
-        boolean alreadyRated = ngoReviewService.existsByNgoAndProfile(ngo.get(), user);
+        boolean alreadyRated = ngoReviewService.existsByNgoAndProfile(ngo, user);
         if (alreadyRated) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("You have already rated this NGO.");
         }
@@ -66,7 +77,7 @@ public class NgoReviewController {
         // Create and save the new review
         NgoReview ngoReview = new NgoReview();
         ngoReview.setRating(rating);
-        ngoReview.setNgo(ngo.get());
+        ngoReview.setNgo(ngo);
         ngoReview.setProfile(user);
 
         NgoReview savedReview = ngoReviewService.saveNgoReview(ngoReview);

@@ -23,6 +23,10 @@ public class NgoService {
     private String profileDir = System.getProperty("user.dir") + "\\uploads\\ngo_images";
     // private String profileDir = upload.ngo_images
 
+    public long getNgoCount() {
+        return ngoRepository.countAllNgos();
+    }
+
     public List<Ngo> getAllngos() {
         System.out.println(profileDir);
         List<Ngo> Ngos = ngoRepository.findAll();
@@ -52,7 +56,10 @@ public class NgoService {
     }
 
     public Ngo updateNgo(Long id, Ngo ngo) {
-        return ngoRepository.findById(id).map(existingNgo -> {
+        Optional<Ngo> optionalNgo = ngoRepository.findById(id);
+
+        if (optionalNgo.isPresent()) {
+            Ngo existingNgo = optionalNgo.get();
             existingNgo.setName(ngo.getName());
             existingNgo.setDescription(ngo.getDescription());
             existingNgo.setEmail(ngo.getEmail());
@@ -61,8 +68,11 @@ public class NgoService {
             existingNgo.setWebsite(ngo.getWebsite());
             // Update any other fields as necessary
             return ngoRepository.save(existingNgo);
-        }).orElse(null);
+        }
+
+        return null; // or throw an exception
     }
+
 
     public void deleteNgo(Long id) {
         ngoRepository.deleteById(id);

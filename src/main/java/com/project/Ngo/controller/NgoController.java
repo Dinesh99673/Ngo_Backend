@@ -36,6 +36,12 @@ public class NgoController {
         return Ngos;
     }
 
+    @GetMapping("/count")
+    public ResponseEntity<Long> getNgoCount() {
+        long count = ngoService.getNgoCount();
+        return ResponseEntity.ok(count); // Return the count as a response.
+    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<Ngo> getNgoById(@PathVariable Long id) {

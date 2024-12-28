@@ -33,7 +33,6 @@ public class Event {
     private String description;
     private String location_link;
     private String venue;
-    private BigDecimal fees;
     private String poster_path;
     private String poster_type;
     // Automatically set the current timestamp when the entity is first created
@@ -47,7 +46,7 @@ public class Event {
 
 
     @JsonManagedReference(value = "event-schedule-reference")
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EventSchedule> eventSchedules = new ArrayList<>();
 
     @JsonManagedReference(value = "event-participant-reference")

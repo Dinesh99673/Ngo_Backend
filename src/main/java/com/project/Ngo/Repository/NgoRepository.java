@@ -13,5 +13,8 @@ public interface NgoRepository extends JpaRepository<Ngo, Long> {
 
     @Query("SELECT n FROM Ngo n LEFT JOIN FETCH n.ngoFields WHERE n.email = :email")
     Optional<Ngo> findByEmail(@Param("email") String email);
+
+    @Query("SELECT COUNT(n) FROM Ngo n")
+    long countAllNgos();
 }
 

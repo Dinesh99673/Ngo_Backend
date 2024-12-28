@@ -10,8 +10,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +35,7 @@ public class Ngo implements Serializable {
     private String registered_by;
     private String adhar_no;
     private String founder_name;
-    private Date founded_on;
+    private LocalDate founded_on;
     private String category;
     private String website;
     private String location_link;
@@ -75,9 +75,9 @@ public class Ngo implements Serializable {
     @OneToMany(mappedBy = "reviewed_ngo", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
     private List<NgoReview> reviewedNgo = new ArrayList<>();
 
-    @JsonManagedReference(value = "About-NGO-Review")
-    @OneToMany(mappedBy = "ngo", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
-    private List<AboutReview> aboutReviews = new ArrayList<>();
+//    @JsonManagedReference(value = "About-NGO-Review")
+//    @OneToMany(mappedBy = "ngo", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
+//    private List<AboutReview> aboutReviews = new ArrayList<>();
 
     @JsonManagedReference(value = "NGO-Event-Reference")
     @OneToMany(mappedBy = "ngo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
