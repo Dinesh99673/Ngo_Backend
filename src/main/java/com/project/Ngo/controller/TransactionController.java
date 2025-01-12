@@ -58,6 +58,7 @@ public class TransactionController implements Serializable {
     @PostMapping("/create-order")
     public ResponseEntity<?> createOrder(@RequestBody Map<String, Object> data) {
         try {
+            System.out.println("\nInside the Create order function\n");
             // Initialize Razorpay Client
             RazorpayClient client = new RazorpayClient(razorpayKey, razorpaySecret);
 
@@ -69,7 +70,7 @@ public class TransactionController implements Serializable {
 
             // Create the order
             Order order = client.orders.create(options);
-
+            System.out.println("\nThiish is the objecct data\n"+order);
             // Return the order details
             return ResponseEntity.ok(order.toString());
         } catch (Exception e) {
@@ -117,6 +118,7 @@ public class TransactionController implements Serializable {
                 payment.setOrderId(orderId);
                 payment.setSignature(razorpaySignature);
                 transactionService.saveTransaction(payment);
+                System.out.println("\ninside the signature module \n");
                 handleTransactionSuccess(data.get("email"),new BigDecimal(data.get("amount")),data.get("NgoName"));
                 return ResponseEntity.ok("Payment verified successfully");
             } else {
