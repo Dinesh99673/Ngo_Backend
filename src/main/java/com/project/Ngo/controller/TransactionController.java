@@ -58,17 +58,19 @@ public class TransactionController implements Serializable {
     @PostMapping("/create-order")
     public ResponseEntity<?> createOrder(@RequestBody Map<String, Object> data) {
         try {
+
+
             // Initialize Razorpay Client
             RazorpayClient client = new RazorpayClient(razorpayKey, razorpaySecret);
-
             // Prepare order details
             JSONObject options = new JSONObject();
             options.put("amount", data.get("amount")); // Amount in paise (e.g., 1000 = ₹10)
             options.put("currency", "INR");
             options.put("receipt", "txn_123456");
-
             // Create the order
+
             Order order = client.orders.create(options);
+            System.out.println("this is");
 
             // Return the order details
             return ResponseEntity.ok(order.toString());

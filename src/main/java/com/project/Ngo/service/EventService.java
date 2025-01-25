@@ -28,6 +28,7 @@ public class EventService {
 
     @Autowired
     private EventRepository eventRepository;
+
     @Autowired
     private EventScheduleRepository eventScheduleRepository;
 

@@ -84,6 +84,11 @@ public class Ngo implements Serializable {
     @ToString.Exclude
     private List<Event> events = new ArrayList<>();
 
+    @JsonManagedReference(value = "NGO-gallery-Reference")
+    @OneToMany(mappedBy = "ngo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private List<GalleryNgo> images = new ArrayList<>();
+
 
 
 

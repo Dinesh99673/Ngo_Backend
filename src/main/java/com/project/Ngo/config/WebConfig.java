@@ -1,12 +1,22 @@
-package com.project.Ngo.DTO;
+package com.project.Ngo.config;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class WebConfig {
+public class WebConfig implements WebMvcConfigurer {
 
+    // Correctly override addResourceHandlers method
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/uploads/gallery/**")
+                .addResourceLocations("file:D:/java_program/project/Ngo_Backend/Ngo_Backend/uploads/gallery/");
+    }
+
+    // CORS configuration
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
@@ -20,4 +30,5 @@ public class WebConfig {
             }
         };
     }
+
 }
