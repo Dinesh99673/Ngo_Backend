@@ -47,8 +47,10 @@ public class Transaction implements Serializable {
 
     private BigDecimal amount;
 
-    @JsonFormat(pattern = "HH:mm:ss")
-    private Time transaction_time;
+    @CreationTimestamp
+    @Column(updatable = false)
+    private Timestamp transaction_time;
+
     private String status;
     // Automatically set the current timestamp when the entity is first created
     @CreationTimestamp

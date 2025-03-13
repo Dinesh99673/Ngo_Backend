@@ -1,5 +1,6 @@
 package com.project.Ngo.controller;
 
+import com.project.Ngo.DTO.DonationDetails;
 import com.project.Ngo.model.Ngo;
 import com.project.Ngo.model.Profile;
 import com.project.Ngo.model.Transaction;
@@ -19,7 +20,6 @@ import javax.crypto.spec.SecretKeySpec;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -58,12 +58,10 @@ public class TransactionController implements Serializable {
     @PostMapping("/create-order")
     public ResponseEntity<?> createOrder(@RequestBody Map<String, Object> data) {
         try {
-<<<<<<< HEAD
 
 
-=======
             System.out.println("\nInside the Create order function\n");
->>>>>>> fcf15f806214d88c665c02442dba5d4d7ad360c3
+
             // Initialize Razorpay Client
             RazorpayClient client = new RazorpayClient(razorpayKey, razorpaySecret);
             // Prepare order details
@@ -74,12 +72,9 @@ public class TransactionController implements Serializable {
             // Create the order
 
             Order order = client.orders.create(options);
-<<<<<<< HEAD
             System.out.println("this is");
 
-=======
             System.out.println("\nThiish is the objecct data\n"+order);
->>>>>>> fcf15f806214d88c665c02442dba5d4d7ad360c3
             // Return the order details
             return ResponseEntity.ok(order.toString());
         } catch (Exception e) {
@@ -118,7 +113,7 @@ public class TransactionController implements Serializable {
                 Profile donar = new Profile();
                 Ngo recipient = new Ngo();
                 recipient.setNgo_id(Long.parseLong(data.get("recipient_id")));
-                donar.setUser_id(Long.parseLong(data.get("user_id")));
+                donar.setUser_id(Long.parseLong("1"));
                 payment.setStatus("Success");
                 payment.setAmount(new BigDecimal(data.get("amount")));
                 payment.setDonor(donar);
@@ -128,14 +123,14 @@ public class TransactionController implements Serializable {
                 payment.setSignature(razorpaySignature);
                 transactionService.saveTransaction(payment);
                 System.out.println("\ninside the signature module \n");
-                handleTransactionSuccess(data.get("email"),new BigDecimal(data.get("amount")),data.get("NgoName"));
+                handleTransactionSuccess("dc7821836954@gmail.com",new BigDecimal(data.get("amount")),data.get("NgoName"));
                 return ResponseEntity.ok("Payment verified successfully");
             } else {
                 Transaction payment = new Transaction();
                 Profile donar = new Profile();
                 Ngo recipient = new Ngo();
                 recipient.setNgo_id(Long.parseLong(data.get("recipient_id")));
-                donar.setUser_id(Long.parseLong(data.get("user_id")));
+                donar.setUser_id(Long.parseLong(data.get("1")));
                 payment.setStatus("Failed");
                 payment.setAmount(new BigDecimal(data.get("amount")));
                 payment.setDonor(donar);
@@ -155,7 +150,9 @@ public class TransactionController implements Serializable {
     public void handleTransactionSuccess(String donorEmail,BigDecimal amt,String name) {
         String subject = "Donation Receipt";
         String body = "Thank you for your donation to "+name+"! Your transaction of Rs "+amt+" was successful.";
+        System.out.println("\nmail sended properly\n");
         emailService.sendReceiptEmail(donorEmail, subject, body);
+        System.out.println("\nmail sended properly\n");
     }
 
     // Helper method to convert byte array to hexadecimal string
@@ -169,6 +166,16 @@ public class TransactionController implements Serializable {
             hexString.append(hex);
         }
         return hexString.toString();
+    }
+
+    @GetMapping("/total_donation/{id}")
+    public BigDecimal getTotalDonation(@PathVariable Long id) {
+        return transactionService.getTotalDonation(id);
+    }
+
+    @GetMapping("/donationDetails/{id}")
+    public List<DonationDetails> getDonationDetails(@PathVariable Long id) {
+        return transactionService.getDonationDetails(id);
     }
 
 
